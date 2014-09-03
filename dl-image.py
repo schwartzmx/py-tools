@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-# Download an Image (Backgrounds) from the web to Home Pictures Folder
+# Simple script to Download an Image (Backgrounds) from the Web and Save to /Pictures Folder
+# with the specified name.  Instead of the usual download into /Downloads folder w/ a random name, rename,
+# move to /Pictures.
 
 __author__ = 'Phil Schwartz'
 
@@ -22,7 +24,7 @@ s.remove(s[0]) #remove script from args
 
 if s[0] == "-h":
 	print "Download an image from the internet into User Home Pictures Folder."
-	print "Syntax: User$ python dl-image.py URL ImageNameToSave"
+	print "Syntax: User$ python dl-image.py URL ImageNameToSave(No extension)"
 	sys.exit()
 
 #url and imageNameToSave from commandLine Args

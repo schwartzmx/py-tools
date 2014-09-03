@@ -28,8 +28,12 @@ if s[0] == "-h":
 	sys.exit()
 
 #url and imageNameToSave from commandLine Args
-url = str(s[0])
-imageName = str(s[1])
+try:
+    url = str(s[0])
+    imageName = str(s[1])
+except:
+    print "Invalid arguments, use -h for syntax example"
+    sys.exit(1)
 
 #get home directory and save to Pictures dir
 home = expanduser("~")

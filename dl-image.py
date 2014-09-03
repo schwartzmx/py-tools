@@ -15,40 +15,41 @@ import urllib
 
 
 def dl_and_save_image(url, imageName, saveFilePath):
-	imageName = os.path.join(saveFilePath, imageName)
-	urllib.urlretrieve(url, imageName, reporthook=None, data=None)
+    imageName = os.path.join(saveFilePath, imageName)
+    urllib.urlretrieve(url, imageName, reporthook=None, data=None)
 
 
-s = sys.argv
-s.remove(s[0]) #remove script from args
+if __name__ == "__main__":
+    s = sys.argv
+    s.remove(s[0])  # remove script from args
 
-if s[0] == "-h":
-	print "Download an image from the internet into User Home Pictures Folder."
-	print "Syntax: User$ python dl-image.py URL ImageNameToSave(No extension)"
-	sys.exit()
+    if s[0] == "-h":
+        print "Download an image from the internet into User Home Pictures Folder."
+        print "Syntax: User$ python dl-image.py URL ImageNameToSave(No extension)"
+        sys.exit()
 
-#url and imageNameToSave from commandLine Args
-try:
-    url = str(s[0])
-    imageName = str(s[1])
-except:
-    print "Invalid arguments, use -h for syntax example"
-    sys.exit(1)
+    # url and imageNameToSave from commandLine Args
+    try:
+        url = str(s[0])
+        imageName = str(s[1])
+    except:
+        print "Invalid arguments, use -h for syntax example"
+        sys.exit(1)
 
-#get home directory and save to Pictures dir
-home = expanduser("~")
-saveFilePath = home + "/Pictures/"
+    #get home directory and save to Pictures dir
+    home = expanduser("~")
+    saveFilePath = home + "/Pictures/"
 
-#find the extension of the picture file and append to the imageName
-urlList = url.split(".")
-extension = "." + urlList[len(urlList)-1]
-imageName = imageName + str(extension)
+    #find the extension of the picture file and append to the imageName
+    urlList = url.split(".")
+    extension = "." + urlList[len(urlList) - 1]
+    imageName = imageName + str(extension)
 
-try:
-	dl_and_save_image(url, imageName, saveFilePath)
-except:
-	print "Error downloading and saving image..."
-	sys.exit(1)
+    try:
+        dl_and_save_image(url, imageName, saveFilePath)
+    except:
+        print "Error downloading and saving image..."
+        sys.exit(1)
 
-print "Success!  File saved to: " + saveFilePath + " as " + imageName
-sys.exit()
+    print "Success!  File saved to: " + saveFilePath + " as " + imageName
+    sys.exit()

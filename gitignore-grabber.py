@@ -10,9 +10,13 @@ import urllib
 
 def grab_and_save(url, repoDir):
     if repoDir[len(repoDir)-1] == "/":
-        repoDir = repoDir + "/.gitignore"
-    else:
         repoDir = repoDir + ".gitignore"
+    else:
+        repoDir = repoDir + "/.gitignore"
+
+    #remove old .gitignore if it exists
+    if os.path.isfile(repoDir):
+        os.remove(repoDir)
 
     #grab text and save to repoDir
     urllib.urlretrieve(url, repoDir, reporthook=None, data=None)
@@ -24,7 +28,8 @@ s.remove(s[0]) #remove script name from args
 #help
 if s[0] == "-h":
     print "Grab gitignore for the specified language from gitignore.io."
-    print "Syntax: User$ python gitignore-grabber.py language repoDirectory"
+    print "Syntax: User$ python gitignore-grabber.py language,IDE,OS repoDirectory"
+    print "Example:User$ python gitignore-grabber.py Python,PyCharm,OSX /User/ProjectDir/"
     sys.exit()
 
 
@@ -35,6 +40,7 @@ gitio = "http://www.gitignore.io/api/" + str(plang) #append lowercase language n
 if not os.path.isdir(saveDir):
     print "Repo Path entered is not a directory. Retry!"
     sys.exit(1)
+
 
 try:
     grab_and_save(gitio, saveDir)

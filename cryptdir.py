@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 # Command Line Directory En/De-crypter (Arg1 = Directory to En/De-crypt, Argument2 = Key, Argument3 = "en/de" to encrypt or decrypt)
+# Go through all files in directory and encrypt them all.
 
 __author__ = 'Phil Schwartz'
 
+import pycrypto
 import sys
 
 def encrypt(dir, key):

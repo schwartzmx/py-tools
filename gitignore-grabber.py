@@ -52,5 +52,5 @@ except:
     print "Error downloading and saving .gitignore file..."
     sys.exit(1)
 
-print "File saved to: " + saveDir + "successfully."
+print "File saved to: " + saveDir + " successfully."
 sys.exit()

@@ -2,7 +2,7 @@
 
 # Simple script to Download an Image (Backgrounds) from the Web and Save to /Pictures Folder
 # with the specified name.  Instead of the usual download into /Downloads folder w/ a random name, rename,
-# move to /Pictures.
+# move to /Pictures. This makes it one easy commandline script w/ the picture url, and imageNameToSave
 
 __author__ = 'Phil Schwartz'
 

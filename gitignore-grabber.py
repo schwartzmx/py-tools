@@ -27,15 +27,19 @@ s.remove(s[0]) #remove script name from args
 
 #help
 if s[0] == "-h":
-    print "Grab gitignore for the specified language from gitignore.io."
+    print "Grab gitignore for the specified language from gitignore.io. Min. of one for first argument."
     print "Syntax: User$ python gitignore-grabber.py language,IDE,OS repoDirectory"
     print "Example:User$ python gitignore-grabber.py Python,PyCharm,OSX /User/ProjectDir/"
     sys.exit()
 
 
-plang = str.lower(s[0]) #grab programming language to grab gitio for
-saveDir = str(s[1])
-gitio = "http://www.gitignore.io/api/" + str(plang) #append lowercase language name to url
+try:
+    plang = str.lower(s[0]) #grab programming language to grab gitio for
+    saveDir = str(s[1])
+    gitio = "http://www.gitignore.io/api/" + str(plang) #append lowercase language name to url
+except:
+    print "Invalid arguments, use -h for syntax example"
+    sys.exit(1)
 
 if not os.path.isdir(saveDir):
     print "Repo Path entered is not a directory. Retry!"

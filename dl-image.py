@@ -21,14 +21,14 @@ def dl_and_save_image(url, imageName, saveFilePath):
 
 if __name__ == "__main__":
     s = sys.argv
-    s.remove(s[0])  # remove script from args
+    s.remove(s[0])  #remove script from args
 
     if s[0] == "-h":
         print "Download an image from the internet into User Home Pictures Folder."
         print "Syntax: User$ python dl-image.py URL ImageNameToSave(No extension)"
         sys.exit()
 
-    # url and imageNameToSave from commandLine Args
+    #url and imageNameToSave from commandLine Args
     try:
         url = str(s[0])
         imageName = str(s[1])

@@ -2,7 +2,10 @@
 
 __author__ = 'Phil Schwartz'
 
-# gitignore-grabber.py - Grabs gitignore generated files from gitignore.io depending on the programming language and/or IDE and/or OS args given
+# gitignore-grabber.py - Grabs gitignore generated files from gitignore.io depending on the programming language
+# and/or IDE and/or OS args given (comma separated).
+
+# python gitignore-grabber.py language,IDE,OS repoDirectory
 
 import sys
 import os

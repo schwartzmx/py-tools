@@ -2,7 +2,7 @@
 
 __author__ = 'Phil'
 
-#Crawl the specified webpage
+#Crawl the specified webpage.
 
 import sys
 import os.path

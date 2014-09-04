@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 __author__ = 'Phil'
 
 #Crawl the specified webpage

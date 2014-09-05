@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 __author__ = 'Phil'
 
-# cryptdir.py - Encrypt/Decrypt a single file or entire contents of a directory
+# cryptdir.py - Encrypt/Decrypt a single file or entire contents of a directory+subdirectories
 
 import sys
 import os
@@ -15,11 +15,15 @@ def encrypt(key, file):
     CHUNK_SIZE = 64 * 1024
     split = file.split('.')
     extension = split[len(split)-1]
-    print extension
+
+    #Skip DS_Store as it causes problems when encrypting/decrypting multiple times
+    if extension == "DS_Store":
+        return
+
     outputFile = "temp."+extension
     fileSize = str(os.path.getsize(file)).zfill(16)  # fill left side of string with 0s
     IV = ''
-    print fileSize
+    #print fileSize
 
     for i in range(16):
         IV += chr(random.randint(0, 0xFF))
@@ -55,9 +59,6 @@ def encrypt(key, file):
 
                     outfile.write(chunk)
 
-                fileSize = os.path.getsize(file)
-                #outfile.truncate(fileSize)
-
         #remove tmp file
         os.remove(outputFile)
 
@@ -66,12 +67,17 @@ def decrypt(key, file):
     CHUNK_SIZE = 64 * 1024
     split = file.split('.')
     extension = split[len(split)-1]
-    print extension
+
+    #Skip DS_STORE as it causes problems when encrypting/decrypting multiple times
+    if extension == "DS_Store":
+        return
+
+
     outputFile = "temp."+extension
 
     with open(file, 'rb') as infile:
         fileSize = long(infile.read(16))
-        print fileSize
+        #print fileSize
         IV = infile.read(16)
 
         decryptor = AES.new(key, AES.MODE_CBC, IV)
@@ -84,7 +90,7 @@ def decrypt(key, file):
                     break
                 elif len(chunk) % 16 != 0:
                     chunk += ' ' * (16 - (len(chunk) % 16))
-                
+
                 outfile.write(decryptor.decrypt(chunk))
 
             outfile.truncate(fileSize)  # truncates all padding added at encryption
@@ -128,24 +134,29 @@ def main():
         file_or_directory = raw_input("Enter a directory or file name: ")
         if not os.path.isdir(file_or_directory):
             if os.path.isfile(file_or_directory):
-                print "-->File"  #test
+                #print "-->File"  #test
                 print "WARNING: Ensure that you write down and remember this for decryption purposes!"
                 password = raw_input("Enter a password: ")
                 encrypt(get_key(password), file_or_directory)
-                print "Finished"
+                print "Encryption completed."
             else:
                 print "Error: File entered does not exist! Exiting..."
                 sys.exit(1)
 
         else:  #is a directory
-            print "-->Directory"  #test
+            #print "-->Directory"  #test
             if os.path.isdir(file_or_directory):
                 print "WARNING: Ensure that you write down and remember this for decryption purposes!"
                 password = raw_input("Enter a password: ")
+                print "Encrypting..."
                 for subdir, dirs, files in os.walk(file_or_directory):
-                    for file in files:
-                        encrypt(get_key(password), file)
-                print "Finished"
+                    if subdir:
+                        print "   >"+subdir
+                        for file in files:
+                            print "     --"+file
+                            encrypt(get_key(password), os.path.join(file_or_directory, subdir, file))
+
+                print "Encryption completed."
 
             else:
                 print "Error: File or Directory does not exist! Exiting..."
@@ -156,24 +167,29 @@ def main():
         file_or_directory = raw_input("Enter a directory or file name: ")
         if not os.path.isdir(file_or_directory):
             if os.path.isfile(file_or_directory):
-                print "-->File"  #test
+                #print "-->File"  #test
                 print "WARNING: Ensure that you enter in the exact password that you encrypted with!"
                 password = raw_input("Enter password: ")
                 decrypt(get_key(password), file_or_directory)
-                print "Finished"
+                print "Decryption completed."
             else:
                 print "Error: File entered does not exist! Exiting..."
                 sys.exit(1)
 
         else:  #is a directory
-            print "-->Directory"  #test
+            #print "-->Directory"  #test
             if os.path.isdir(file_or_directory):
                 print "WARNING: Ensure that you enter in the exact password that you encrypted with!"
                 password = raw_input("Enter password: ")
+                print "Decrypting..."
                 for subdir, dirs, files in os.walk(file_or_directory):
-                    for file in files:
-                        decrypt(get_key(password), file)
-                print "Finished"
+                    if subdir:
+                        print "   >"+subdir
+                        for file in files:
+                            print "     --"+file
+                            decrypt(get_key(password), os.path.join(file_or_directory, subdir, file))
+
+                print "Decryption completed."
 
             else:
                 print "Error: File or Directory does not exist! Exiting..."

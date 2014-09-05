@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 __author__ = 'Phil'
 
 # hex_dump.py - Hex dump a specified file to output or to a specified file

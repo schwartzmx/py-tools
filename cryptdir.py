@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 __author__ = 'Phil'
 
-# cryptdir.py - Encrypt/Decrypt a single file or entire contents of a directory+subdirectories
+# cryptdir.py - Encrypt/Decrypt a single file or entire contents of a directory+subdirectories w/ AES CBC
 
 import sys
 import os

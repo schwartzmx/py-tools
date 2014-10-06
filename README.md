@@ -3,13 +3,13 @@ PyTools
 
 Just some playing around with Python.
 
-* ###dl-image.py
-    
-    Downloads an image from the web straight to my /Pictures folder with a specified save name.
-
 * ###cryptdir.py
 
     Encrypts/Decrypts specified file, subdirectory, or entire directory using AES.
+
+* ###dl-image.py
+    
+    Downloads an image from the web straight to my /Pictures folder with a specified save name.
 
 * ###gitignore-grabber.py
 

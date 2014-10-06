@@ -15,7 +15,7 @@ Just some playing around with Python.
 
     Grabs .gitignore files directly from gitignore.io depending on Language and/or IDE and/or OS and saves it to the specified project directory.
 
-* ###hex_dumpy.py
+* ###hex_dump.py
 
     Hex dump specified file to std output or to file fileName.dump
 

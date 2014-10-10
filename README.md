@@ -21,4 +21,4 @@ Just some playing around with Python.
 
 * ###web-crawler.py
     
-    Figuring out a strategy on what to crawl.
+    Scrape a specified webpage for links, and recursively crawl those for a specified amount of crawls.

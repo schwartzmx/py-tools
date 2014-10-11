@@ -27,9 +27,10 @@ def main():
         if not "http" in url:
             url = "http://"+url
         l = []
-        bs_url(l,url)
-
-        sys.exit()
+        try:
+        	bs_url(l,url)
+        except:
+        	sys.exit(1)
 
     else:
         print  parser.usage
@@ -37,10 +38,17 @@ def main():
 
 def bs_url(l, url):
     global bsoup
-    r = requests.get(url)
-    data = r.text
-    bsoup = BeautifulSoup(data)
-    spider(l,url)
+    
+    try:
+    	r = requests.get(url)
+    	data = r.text
+    	bsoup = BeautifulSoup(data)
+    	spider(l,url)
+    except:
+		if crawled_links == max_crawl:
+			sys.exit(0)
+		print "> Broken link encountered. Skipping..."
+		l.remove(url)
 
 def spider(l,url):
     global bsoup

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 __author__ = 'Phil'
 
-# image-meta-data.py - Get image metadata from file, also specify -gl to retrieve geolocation data of image if it exists
+# image-meta-data.py - Get image metadata from file or url, also specify -gl to retrieve geolocation data of image if it exists
 
 import argparse
 from PIL import Image

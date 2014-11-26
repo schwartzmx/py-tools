@@ -18,9 +18,10 @@ max_crawl = None
 def main():
     global max_crawl
     parser = argparse.ArgumentParser()
-    parser.add_argument("url", help="Specify a URL (Example: www.mysite.com)", action="store", type=str)
-    parser.add_argument("maxLinksToCrawl", help="Specify the max amount of links to crawl. (100)", action="store",
-                        type=int)
+    parser.add_argument(
+        "url", help="Specify a URL (Example: www.mysite.com)", action="store", type=str)
+    parser.add_argument(
+        "maxLinksToCrawl", help="Specify the max amount of links to crawl. (100)", action="store", type=int)
     args = parser.parse_args()
 
     if args.url and args.maxLinksToCrawl:
@@ -35,7 +36,7 @@ def main():
             sys.exit(1)
 
     else:
-        print  parser.usage
+        print parser.usage
 
 
 def bs_url(l, url):
@@ -81,4 +82,3 @@ def spider(l, url):
 
 if __name__ == "__main__":
     main()
-

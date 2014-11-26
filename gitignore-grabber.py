@@ -22,7 +22,7 @@ def grab_and_save(url, repoDir):
     if os.path.isfile(repoDir):
         os.remove(repoDir)
 
-    #grab text and save to repoDir
+    # grab text and save to repoDir
     urllib.urlretrieve(url, repoDir, reporthook=None, data=None)
 
 
@@ -38,9 +38,10 @@ if __name__ == "__main__":
         sys.exit()
 
     try:
-        plang = str.lower(s[0])  #grab programming language to grab gitio for
+        plang = str.lower(s[0])  # grab programming language to grab gitio for
         saveDir = str(s[1])
-        gitio = "http://www.gitignore.io/api/" + str(plang)  #append lowercase language name to url
+        # append lowercase language name to url
+        gitio = "http://www.gitignore.io/api/" + str(plang)
     except:
         print "Invalid arguments, use -h for syntax example"
         sys.exit(1)

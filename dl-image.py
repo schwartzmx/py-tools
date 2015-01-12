@@ -5,6 +5,7 @@
 # move to /Pictures. This makes it one easy commandline script w/ the picture url, and imageNameToSave
 # Also specify whether to set image as current background
 
+
 __author__ = 'Phil Schwartz'
 
 # python dl-image.py full-url.jpg savedImageName
@@ -29,7 +30,7 @@ if __name__ == "__main__":
     parser.add_argument("-s", help="Specify whether to set downloaded image to current background.", action="store_true")
     args = parser.parse_args()
 
-    #get home directory and save to Pictures dir
+    # get home directory and save to Pictures dir
     home = expanduser("~")
     saveFilePath = home + "/Pictures/"
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 __author__ = 'Phil'
 
-# image-meta-data.py - Get image metadata from file or url, also specify -gl to retrieve geolocation data of image if it exists
+# image-meta-data.py - Get image metadata from file or url, also specify
+# -gl to retrieve geolocation data of image if it exists
 
 import argparse
 from PIL import Image
@@ -23,32 +24,32 @@ def getMD(img, out, gl):
                 t_name = TAGS.get(tag, tag)
                 metaData[t_name] = value
                 if not out:
-                    print "\t"+ t_name, value
+                    print "\t" + t_name, value
 
                 if out:
                     print "Outputting to file..."
                     with open(out, 'w') as outFile:
                         for (t_name, v) in metaData.items():
-                            outFile.write(str(t_name)+"\t"+str(v)+"\n")
+                            outFile.write(str(t_name) + "\t" + str(v) + "\n")
         else:
             print "No Meta Data Found."
         try:
             if not gl:
                 return
             elif gl:
-                lat = [float(x)/float(y) for x, y in inf['GPSInfo'][2]]
+                lat = [float(x) / float(y) for x, y in inf['GPSInfo'][2]]
                 latref = inf['GPSInfo'][1]
-                lon = [float(x)/float(y) for x, y in inf['GPSInfo'][4]]
+                lon = [float(x) / float(y) for x, y in inf['GPSInfo'][4]]
                 lonref = inf['GPSInfo'][3]
 
-                lat = lat[0] + lat[1]/60 + lat[2]/3600
-                lon = lon[0] + lon[1]/60 + lon[2]/3600
+                lat = lat[0] + lat[1] / 60 + lat[2] / 3600
+                lon = lon[0] + lon[1] / 60 + lon[2] / 3600
                 if latref == 'S':
                     lat = -lat
                 if lonref == 'W':
                     lon = -lon
 
-                print "DD GeoLocation Coords: " +lat+", "+lon
+                print "DD GeoLocation Coords: " + lat + ", " + lon
         except:
             print "Failed to get DD Geolocation from GPSInfo."
 
@@ -61,7 +62,8 @@ def main():
     parser.add_argument("-f", help="image file")
     parser.add_argument("-url", help="url of image file")
     parser.add_argument("--output", "-o", help="dump contents to file")
-    parser.add_argument("-gl", action="store_true", help="get dd geolocation of image")
+    parser.add_argument(
+        "-gl", action="store_true", help="get dd geolocation of image")
     args = parser.parse_args()
 
     if args.f:
@@ -70,9 +72,10 @@ def main():
     elif args.url:
         urlList = args.url.split(".")
         extension = "." + urlList[len(urlList) - 1]
-        tempfile = "mdtemp"+extension
+        tempfile = "mdtemp" + extension
         try:
-            urllib.urlretrieve(args.url, filename=tempfile, reporthook=None, data=None)
+            urllib.urlretrieve(
+                args.url, filename=tempfile, reporthook=None, data=None)
         except:
             print "Error retrieving image from url."
 

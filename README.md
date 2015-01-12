@@ -8,8 +8,8 @@ Just some playing around with Python.
     Encrypts/Decrypts specified file, subdirectory, or entire directory using AES.
 
 * ###dl-image.py
-    
-    Downloads an image from the web straight to my /Pictures folder with a specified save name.
+
+    Downloads an image from the web straight to my /Pictures folder with a specified save name. If specified sets downloaded image to current background (Mac).
 
 * ###gitignore-grabber.py
 
@@ -23,5 +23,5 @@ Just some playing around with Python.
     Grab image meta data if it exists. And if specified find geolocation coords if GPSInfo exists.
 
 * ###web-crawler.py
-    
+
     Scrape a specified webpage for links, and recursively crawl those for a specified amount of crawls.

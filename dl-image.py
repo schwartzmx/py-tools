@@ -3,6 +3,7 @@
 # Simple script to Download an Image (Backgrounds) from the Web and Save to /Pictures Folder
 # with the specified name.  Instead of the usual download into /Downloads folder w/ a random name, rename,
 # move to /Pictures. This makes it one easy commandline script w/ the picture url, and imageNameToSave
+# Also specify whether to set image as current background
 
 __author__ = 'Phil Schwartz'
 
@@ -10,8 +11,10 @@ __author__ = 'Phil Schwartz'
 
 import os
 from os.path import expanduser
+import argparse
 import sys
 import urllib
+from Foundation import *
 
 
 def dl_and_save_image(url, imageName, saveFilePath):
@@ -20,36 +23,33 @@ def dl_and_save_image(url, imageName, saveFilePath):
 
 
 if __name__ == "__main__":
-    s = sys.argv
-    s.remove(s[0])  #remove script from args
-
-    if s[0] == "-h":
-        print "Download an image from the internet into User Home Pictures Folder."
-        print "Syntax: User$ python dl-image.py URL ImageNameToSave(No extension)"
-        sys.exit()
-
-    #url and imageNameToSave from commandLine Args
-    try:
-        url = str(s[0])
-        imageName = str(s[1])
-    except:
-        print "Invalid arguments, use -h for syntax example"
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Download a specified image and save as a specified name.  Also specify whether to set as current background.")
+    parser.add_argument("url", help="Specify a url.")
+    parser.add_argument("save_name", help="Enter a file save name. Ex: Background")
+    parser.add_argument("-s", help="Specify whether to set downloaded image to current background.", action="store_true")
+    args = parser.parse_args()
 
     #get home directory and save to Pictures dir
     home = expanduser("~")
     saveFilePath = home + "/Pictures/"
 
     #find the extension of the picture file and append to the imageName
-    urlList = url.split(".")
+    urlList = args.url.split(".")
     extension = "." + urlList[len(urlList) - 1]
-    imageName = imageName + str(extension)
+    imageName = args.save_name + str(extension)
 
     try:
-        dl_and_save_image(url, imageName, saveFilePath)
+        dl_and_save_image(args.url, imageName, saveFilePath)
     except:
         print "Error downloading and saving image..."
         sys.exit(1)
 
     print "Success!  File saved to: " + saveFilePath + " as " + imageName
+
+    if args.s:
+        print "Setting " + saveFilePath+imageName + " to current background..."
+        s = NSAppleScript.alloc().initWithSource_("tell app \"Finder\" to set desktop picture to POSIX file \"{}\"".format(saveFilePath+imageName))
+        s.executeAndReturnError_(None)
+        print "Finished."
+
     sys.exit()

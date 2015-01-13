@@ -4,6 +4,7 @@
 # with the specified name.  Instead of the usual download into /Downloads folder w/ a random name, rename,
 # move to /Pictures. This makes it one easy commandline script w/ the picture url, and imageNameToSave
 # Also specify whether to set image as current background
+# http://imgur.com/a/akHsJ -> 575 Desktop Backgrounds no watermarks
 
 
 __author__ = 'Phil Schwartz'
@@ -27,7 +28,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Download a specified image and save as a specified name.  Also specify whether to set as current background.")
     parser.add_argument("url", help="Specify a url.")
     parser.add_argument("save_name", help="Enter a file save name. Ex: Background")
-    parser.add_argument("-s", help="Specify whether to set downloaded image to current background.", action="store_true")
+    parser.add_argument("-s", help="Set downloaded image to current background.", action="store_true")
     args = parser.parse_args()
 
     # get home directory and save to Pictures dir
@@ -39,13 +40,15 @@ if __name__ == "__main__":
     extension = "." + urlList[len(urlList) - 1]
     imageName = args.save_name + str(extension)
 
-    try:
-        dl_and_save_image(args.url, imageName, saveFilePath)
-    except:
-        print "Error downloading and saving image..."
-        sys.exit(1)
-
-    print "Success!  File saved to: " + saveFilePath + " as " + imageName
+    if args.url and args.save_name:
+        try:
+            dl_and_save_image(args.url, imageName, saveFilePath)
+            print "Success!  File saved to: " + saveFilePath + " as " + imageName
+        except:
+            print "Error downloading and saving image..."
+            sys.exit(1)
+    else:
+        print parser.usage
 
     if args.s:
         print "Setting " + saveFilePath+imageName + " to current background..."

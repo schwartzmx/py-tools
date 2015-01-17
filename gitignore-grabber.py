@@ -10,51 +10,47 @@ __author__ = 'Phil Schwartz'
 import sys
 import os
 import urllib
-
+import argparse
 
 def grab_and_save(url, repoDir):
     if repoDir[len(repoDir) - 1] == "/":
         repoDir = repoDir + ".gitignore"
     else:
         repoDir = repoDir + "/.gitignore"
-
     # remove old .gitignore if it exists
     if os.path.isfile(repoDir):
         os.remove(repoDir)
-
     # grab text and save to repoDir
     urllib.urlretrieve(url, repoDir, reporthook=None, data=None)
 
-
 if __name__ == "__main__":
-    s = sys.argv
-    s.remove(s[0])  # remove script name from args
+    parser = argparse.ArgumentParser(description="Grab gitignore files from gitignore.io and save to the specified directory.", usage="Usage example: ./gitignore-grabber.py -a OSX Java Eclipse -d home/User/Repo")
+    parser.add_argument("-a", "--args", help="Specify programming language(s), OS(s), or others.", action="store")
+    parser.add_argument("-r", "--repo", help="Enter the path to save .gitignore file to.", action="store")
+    args = parser.parse_args()
 
-    # help
-    if str.lower(s[0]) == "-h":
-        print "Grab gitignore for the specified language from gitignore.io. Min. of one for first argument."
-        print "Syntax: User$ python gitignore-grabber.py language,IDE,OS repoDirectory"
-        print "Example:User$ python gitignore-grabber.py Python,PyCharm,OSX /User/ProjectDir/"
-        sys.exit()
+    if args.args and args.repo:
+        try:
+            plang = args.args.replace(' ', ',')  # grab programming language to grab gitio for
+            saveDir = args.repo
+            # append lowercase language name to url
+            gitio = "http://www.gitignore.io/api/" + str(plang)
 
-    try:
-        plang = str.lower(s[0])  # grab programming language to grab gitio for
-        saveDir = str(s[1])
-        # append lowercase language name to url
-        gitio = "http://www.gitignore.io/api/" + str(plang)
-    except:
-        print "Invalid arguments, use -h for syntax example"
-        sys.exit(1)
+            if not os.path.isdir(saveDir):
+                print "Repo Path entered is not a directory. Retry!"
+                sys.exit(1)
 
-    if not os.path.isdir(saveDir):
-        print "Repo Path entered is not a directory. Retry!"
-        sys.exit(1)
+            try:
+                grab_and_save(gitio, saveDir)
+            except:
+                print "Error downloading and saving .gitignore file..."
+                sys.exit(1)
 
-    try:
-        grab_and_save(gitio, saveDir)
-    except:
-        print "Error downloading and saving .gitignore file..."
-        sys.exit(1)
+            print "File saved to: " + saveDir + " successfully."
+            sys.exit()
+        except:
+            print "Invalid arguments, use -h for syntax example"
+            sys.exit(1)
+    else:
+        print parser.usage
 
-    print "File saved to: " + saveDir + " successfully."
-    sys.exit()

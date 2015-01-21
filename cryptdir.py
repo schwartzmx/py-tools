@@ -213,7 +213,7 @@ def main():
                 print "WARNING: Ensure that you write down and remember this for decryption purposes!"
                 while True:
                     password = raw_input("Enter a password: ")
-                    password2 = raw_input("Re-enter a password: ")
+                    password2 = raw_input("Re-enter password: ")
                     if password == password2:
                         encrypt(get_key(password, path, 'encrypt', True, args.file), args.file)
                         print "Encryption completed."
@@ -228,7 +228,7 @@ def main():
                 print "WARNING: Ensure that you write down and remember this for decryption purposes!"
                 while True:
                     password = raw_input("Enter a password: ")
-                    password2 = raw_input("Re-enter a password: ")
+                    password2 = raw_input("Re-enter password: ")
                     if password == password2:
                         print "Encrypting..."
                         for subdir, dirs, files in os.walk(args.file):

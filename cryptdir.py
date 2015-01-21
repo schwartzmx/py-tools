@@ -8,7 +8,6 @@ import sys
 import os
 import random
 import argparse
-
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 
@@ -127,7 +126,7 @@ def get_key(password, path, eod, isFile, f):
     if compare == True:
         return hasher.digest()
     else:
-        print "Invalid Password entered!"
+        print "       *Invalid Password entered!"
         sys.exit(1)
 
 
@@ -150,10 +149,10 @@ def pass_cmp(password, path, eod, isFile, f):
                         encryptFlag = True
                 i += 1
         if eod == 'encrypt' and encryptFlag == True:
-            print "ERROR password invalid."
-            print "--There is already an entry for this file in the config."
-            print "--Encrypting with specified password may cause the data to be lost."
-            print "--If this is a mistake, and the file currently isn't encrypted. Delete its entry in the config file and retry."
+            print "       ERROR password invalid."
+            print "       --There is already an entry for this file in the config."
+            print "       --Encrypting with specified password may cause the data to be lost."
+            print "       --If this is a mistake, and the file currently isn't encrypted. Delete its entry in the config file and retry."
             sys.exit(1)
 
     # New encryption, but the file already exists in directory, append
@@ -203,34 +202,49 @@ def main():
             path = path + apath[i] + '/'
             i += 1
 
+    if args.e and args.d:
+        print "Error cannot decrypt and encrypt at the same time!  Exiting..."
+        sys.exit()
+
     # Encrypt
     if args.e:
         if not os.path.isdir(args.file):
             if os.path.isfile(args.file):
                 print "WARNING: Ensure that you write down and remember this for decryption purposes!"
-                password = raw_input("Enter a password: ")
-                encrypt(
-                    get_key(password, path, 'encrypt', True, args.file), args.file)
-                print "Encryption completed."
+                while True:
+                    password = raw_input("Enter a password: ")
+                    password2 = raw_input("Re-enter a password: ")
+                    if password == password2:
+                        encrypt(get_key(password, path, 'encrypt', True, args.file), args.file)
+                        print "Encryption completed."
+                        break
+                    else:
+                        print "The two passwords did not match! Retry."
             else:
                 print "Error: File entered does not exist! Exiting..."
 
         else:  # is a directory
             if os.path.isdir(args.file):
                 print "WARNING: Ensure that you write down and remember this for decryption purposes!"
-                password = raw_input("Enter a password: ")
-                print "Encrypting..."
-                for subdir, dirs, files in os.walk(args.file):
-                    if subdir:
-                        print "   >" + subdir
-                        for file in files:
-                            try:
-                                print "     --" + file
-                                encrypt(get_key(password, args.file, 'encrypt', False, args.file), os.path.join(
-                                    args.file, subdir, file))
-                            except:
-                                print "     --" + file + "-> Error, file skipped."
-                print "Encryption completed."
+                while True:
+                    password = raw_input("Enter a password: ")
+                    password2 = raw_input("Re-enter a password: ")
+                    if password == password2:
+                        print "Encrypting..."
+                        for subdir, dirs, files in os.walk(args.file):
+                            if subdir:
+                                print "   >" + subdir
+                                for file in files:
+                                    try:
+                                        print "     --" + file
+                                        encrypt(get_key(password, args.file, 'encrypt', False, args.file), os.path.join(
+                                            args.file, subdir, file))
+                                    except:
+                                        print "     --" + file + "-> Error, file skipped."
+                        print "Encryption completed."
+                        break
+                    else:
+                        print "Error: File entered does not exist! Exiting..."
 
             else:
                 print "Error: File or Directory does not exist! Exiting..."
@@ -251,7 +265,7 @@ def main():
             if os.path.isdir(args.file):
                 print "WARNING: Ensure that you enter in the exact password that you encrypted with!"
                 password = raw_input("Enter password: ")
-                print "Decrypting..."
+                print "Attempting decryption..."
                 for subdir, dirs, files in os.walk(args.file):
                     if subdir:
                         print "   >" + subdir

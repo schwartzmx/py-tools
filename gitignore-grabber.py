@@ -35,22 +35,16 @@ if __name__ == "__main__":
             saveDir = args.repo
             # append lowercase language name to url
             gitio = "http://www.gitignore.io/api/" + str(plang)
-
             if not os.path.isdir(saveDir):
                 print "Repo Path entered is not a directory. Retry!"
                 sys.exit(1)
-
             try:
                 grab_and_save(gitio, saveDir)
             except:
                 print "Error downloading and saving .gitignore file..."
                 sys.exit(1)
-
             print "File saved to: " + saveDir + " successfully."
-            sys.exit()
         except:
             print "Invalid arguments, use -h for syntax example"
-            sys.exit(1)
     else:
         print parser.usage
-

@@ -6,6 +6,7 @@ __author__ = 'Phil'
 
 import sys
 import os
+import glob
 import random
 import argparse
 from Crypto.Cipher import AES
@@ -22,7 +23,7 @@ def encrypt(key, file):
     if extension == "DS_Store" or extension == "cd":
         return
 
-    outputFile = "temp." + extension
+    outputFile = "._temp." + extension
     # fill left side of string with 0s
     fileSize = str(os.path.getsize(file)).zfill(16)
     IV = ''
@@ -76,7 +77,7 @@ def decrypt(key, file):
     if extension == "DS_Store" or extension == "cd":
         return
 
-    outputFile = "temp." + extension
+    outputFile = "._temp." + extension
 
     with open(file, 'rb') as infile:
         fileSize = long(infile.read(16))
@@ -248,7 +249,6 @@ def main():
 
             else:
                 print "Error: File or Directory does not exist! Exiting..."
-
     # Decrypt
     elif args.d:
         if not os.path.isdir(args.file):
@@ -283,6 +283,16 @@ def main():
 
     else:
         print parser.usage
+
+
+    if args.e or args.d:
+        # Remove all ._temp. files that linger in current working directory
+        # Some files could be present if there were errors during the encryption or decryption process,
+        # this should remove them
+        cwd = os.getcwd()
+        wc = os.path.join(cwd, '._temp.*')
+        for f in glob.glob(wc):
+            os.remove(f)
 
 
 if __name__ == "__main__":
